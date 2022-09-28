@@ -6,7 +6,7 @@ if (document.readyState == 'loading') {
   ready()
 }
 
-import RevolutCheckout from "@revolut/checkout";
+/* import RevolutCheckout from "@revolut/checkout";
 
 RevolutCheckout.payments({
   locale: 'en', // optional, defaults to 'en'
@@ -31,7 +31,7 @@ RevolutCheckout.payments({
         body: JSON.stringify({ amount: totalCents, currency }),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer sk_KMLJscMDH9MDf4W9EYjI6gh4-ivAu3pzxwKDM2l2R7Kq-U6vFoxabVe6A-oYOVp4"
+          "Authorization": "Bearer "
         }
       }).then((res) => res.json()).then((data) => {return data})
       
@@ -62,7 +62,7 @@ revolutPay.on('payment', (event) => {
       onError(event.error)
       break
   }
-})
+}) */
 
 function ready() {
   var removeCartItemButton = document.getElementsByClassName('btn-danger')
