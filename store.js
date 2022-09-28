@@ -6,6 +6,64 @@ if (document.readyState == 'loading') {
   ready()
 }
 
+import RevolutCheckout from "@revolut/checkout";
+
+RevolutCheckout.payments({
+  locale: 'en', // optional, defaults to 'en'
+  mode: 'sandbox', // defaults to 'prod'
+  publicToken: 'pk_t57IdWMw6olEbAd1ftm4qcfQ3UmVbzM3sc63Qq1weJVH2hlr', // merchant public API key
+}).then((paymentInstance) => {
+  var totalCents = total * 100
+  const paymentOptions = {
+    currency: 'USD', // 3-letter currency code
+    totalAmount: totalCents, // in lowest denomination e.g., cents
+    
+    buttonStyle: {
+      action: 'pay',
+      variant: 'dark',
+      size: 'large',
+      radius: 'small',
+    },
+
+    createOrder: async () => {
+      const order = await fetch('https://sandbox-merchant.revolut.com/api/1.0/orders', {
+        method: 'POST',
+        body: JSON.stringify({ amount: totalCents, currency }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer sk_KMLJscMDH9MDf4W9EYjI6gh4-ivAu3pzxwKDM2l2R7Kq-U6vFoxabVe6A-oYOVp4"
+        }
+      }).then((res) => res.json()).then((data) => {return data})
+      
+      return { publicId: order.public_id }
+    },
+  }
+})
+
+const revolutPay = paymentInstance.revolutPay 
+
+
+revolutPay.mount(document.getElementById('revolut-pay'), paymentOptions)
+
+revolutPay.on('payment', (event) => {
+  switch (event.type) {
+    case 'cancel': {
+      if (event.dropOffState === 'payment_summary') {
+        log('what a shame, please complete your payment')
+      }
+      break
+    }
+
+    case 'success':
+      onSuccess()
+      break
+
+    case 'error':
+      onError(event.error)
+      break
+  }
+})
+
 function ready() {
   var removeCartItemButton = document.getElementsByClassName('btn-danger')
   console.log(removeCartItemButton)
@@ -112,64 +170,5 @@ function updateCardTotal() {
 }
 
 
-/* 
-
-import RevolutCheckout from "@revolut/checkout";
-
-RevolutCheckout.payments({
-  locale: 'en', // optional, defaults to 'en'
-  mode: 'sandbox', // defaults to 'prod'
-  publicToken: 'sk_KMLJscMDH9MDf4W9EYjI6gh4-ivAu3pzxwKDM2l2R7Kq-U6vFoxabVe6A-oYOVp4', // merchant public API key
-}).then((paymentInstance) => {
-  var totalCents = total * 100
-  const paymentOptions = {
-    currency: 'USD', // 3-letter currency code
-    totalAmount: totalCents, // in lowest denomination e.g., cents
-    
-    buttonStyle: {
-      action: 'pay',
-      variant: 'dark',
-      size: 'large',
-      radius: 'small',
-    },
-
-    createOrder: async () => {
-      const order = await fetch('https://sandbox-merchant.revolut.com/api/1.0/orders', {
-        method: 'POST',
-        body: JSON.stringify({ amount: totalCents, currency }),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer sk_KMLJscMDH9MDf4W9EYjI6gh4-ivAu3pzxwKDM2l2R7Kq-U6vFoxabVe6A-oYOVp4"
-        }
-      }).then((res) => res.json()).then((data) => {return data})
-      
-      return { publicId: order.public_id }
-    },
-  }
-})
-
-const revolutPay = paymentInstance.revolutPay 
 
 
-revolutPay.mount(document.getElementById('revolut-pay'), paymentOptions)
-
-revolutPay.on('payment', (event) => {
-  switch (event.type) {
-    case 'cancel': {
-      if (event.dropOffState === 'payment_summary') {
-        log('what a shame, please complete your payment')
-      }
-      break
-    }
-
-    case 'success':
-      onSuccess()
-      break
-
-    case 'error':
-      onError(event.error)
-      break
-  }
-})
-
- */
