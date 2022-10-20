@@ -5,8 +5,10 @@
         <title>The Generics | Store</title>
         <meta name="description" content="This is the description">
         <link rel="stylesheet" href="styles.css">
-        <script id="revolut-checkout" src="https://sandbox-merchant.revolut.com/embed.js" async></script>
-        <script src="./store.js" async></script>
+        <!--START:  EMBED SCRIPT FOR REVOLUT CHECKOUT  -->
+        <script>!function(e,o,t){e[t]=function(n,r){var c={sandbox:"https://sandbox-merchant.revolut.com/embed.js",prod:"https://merchant.revolut.com/embed.js",dev:"https://merchant.revolut.codes/embed.js"},d=o.createElement("script");d.id="revolut-checkout",d.src=c[r]||c.prod,d.async=!0,o.head.appendChild(d);var s={then:function(r,c){d.onload=function(){r(e[t](n))},d.onerror=function(){o.head.removeChild(d),c&&c(new Error(t+" is failed to load"))}}};return"function"==typeof Promise?Promise.resolve(s):s}}(window,document,"RevolutCheckout");</script>
+        <!--END:  EMBED SCRIPT FOR REVOLUT CHECKOUT  -->
+        <script src="./store.js" async type="module"></script>
     </head>
     <body>
         <header class="main-header">
@@ -90,10 +92,8 @@
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">$0.00</span>
             </div>
+            <div id="revolut-pay"></div>
             <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
-            <iframe allow="payment" allowpaymentrequest="" style="display: block; width: 100%; height: calc(3rem + 5px + 50px); min-width: calc(100% + 5px); background: transparent; border: 0px;" src="https://sandbox-merchant.revolut.com/payments-revolut-pay-button.html?token=pk_t57IdWMw6olEbAd1ftm4qcfQ3UmVbzM3sc63Qq1weJVH2hlr" role="application" data-testid="payments-revolut-pay-button-iframe">
-              
-            </iframe>
         </section>
         <footer class="main-footer">
             <div class="container main-footer-container">
