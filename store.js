@@ -1,4 +1,5 @@
 
+import RevolutCheckout from "@revolut/checkout";
 
 if (document.readyState == 'loading') {
   document.addEventListener('DOMContentLoaded', ready)
@@ -6,7 +7,6 @@ if (document.readyState == 'loading') {
   ready()
 }
 
-/* import RevolutCheckout from "@revolut/checkout";
 
 RevolutCheckout.payments({
   locale: 'en', // optional, defaults to 'en'
@@ -26,12 +26,11 @@ RevolutCheckout.payments({
     },
 
     createOrder: async () => {
-      const order = await fetch('https://sandbox-merchant.revolut.com/api/1.0/orders', {
+      const order = await fetch('', {
         method: 'POST',
         body: JSON.stringify({ amount: totalCents, currency }),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer "
         }
       }).then((res) => res.json()).then((data) => {return data})
       
@@ -62,7 +61,7 @@ revolutPay.on('payment', (event) => {
       onError(event.error)
       break
   }
-}) */
+})
 
 function ready() {
   var removeCartItemButton = document.getElementsByClassName('btn-danger')
